@@ -1,0 +1,29 @@
+{
+  "cli": {
+    "version": ">= 10.2.2",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development"
+    },
+    "ios-simulator": {
+      "extends": "development",
+      "ios": {
+        "simulator": true
+      },
+      "channel": "ios-simulator"
+    },
+    "preview": {
+      "autoIncrement": true,
+      "distribution": "internal",
+      "channel": "preview"
+    },
+    "production": {
+      "autoIncrement": true,
+      "channel": "production"
+    }
+  }
+}
