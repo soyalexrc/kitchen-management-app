@@ -1,6 +1,6 @@
 import {ScrollView, Text, View, XStack, YStack} from "tamagui";
 import {Fragment, useCallback, useEffect, useState} from "react";
-import {ActivityIndicator, Pressable, RefreshControl} from "react-native";
+import {ActivityIndicator, Platform, Pressable, RefreshControl} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useHeaderHeight} from "@react-navigation/elements";
 import {useRouter} from "expo-router";
@@ -23,6 +23,7 @@ export default function Page() {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const {bottom} = useSafeAreaInsets();
     const router = useRouter();
+    const isIos = Platform.OS === 'ios';
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -37,6 +38,7 @@ export default function Page() {
         }, 2000);
     }, [])
 
+
     return (
         <ScrollView
             flex={1}
@@ -49,14 +51,14 @@ export default function Page() {
         }>
             {
                 loading &&
-                <YStack alignItems="center" marginTop={400} gap={10} justifyContent="center">
+                <YStack alignItems="center" marginTop={300} gap={10} justifyContent="center">
                     <ActivityIndicator/>
                     <Text>Cargando...</Text>
                 </YStack>
             }
             {
                 !loading &&
-                <YStack gap={10} marginTop={210}>
+                <YStack gap={10} marginTop={isIos ? 210 : 0}>
                     <Text paddingHorizontal={20} marginVertical={10}>10 Resultados</Text>
                     {
                         data.map(item => (

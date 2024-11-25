@@ -1,6 +1,6 @@
 import {Image, Text, useTheme, View, XStack, YStack} from "tamagui";
 import {useAuth, useUser} from "@clerk/clerk-expo";
-import {TouchableOpacity} from "react-native";
+import {Platform, TouchableOpacity} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {MenuSheet} from "@/lib/components/home/MenuSheet";
 import {Fragment, useState} from "react";
@@ -11,9 +11,10 @@ export function Header() {
     const {signOut} = useAuth();
     const theme = useTheme();
     const [menuOpen, setMenuOpen] = useState(false);
+    const isIos = Platform.OS === 'ios';
     return (
         <Fragment>
-            <XStack alignItems="center" justifyContent="space-between" marginBottom={20}>
+            <XStack alignItems="center" justifyContent="space-between" marginBottom={20} marginTop={isIos ? 0 : 20}>
                 <XStack gap={20} alignItems="center">
                     <Image
                         source={{uri: user?.imageUrl}}

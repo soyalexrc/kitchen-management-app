@@ -1,13 +1,17 @@
-import {Text, View} from "tamagui";
+import {ScrollView, Text, View} from "tamagui";
 import {useSearchParams} from "expo-router/build/hooks";
+import {Platform} from "react-native";
 
 export default function Page() {
     const params = useSearchParams();
+    const isIos = Platform.OS === 'ios';
 
-    console.log(params.get('id'))
     return (
-        <View>
-            <Text>Select warehouse</Text>
-        </View>
+        <ScrollView paddingTop={isIos ? 170 : 0}>
+            <View>
+                <Text>Salsas</Text>
+            </View>
+
+        </ScrollView>
     )
 }

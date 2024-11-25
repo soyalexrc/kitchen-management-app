@@ -1,11 +1,12 @@
 import {Stack, useRouter} from "expo-router";
-import {TouchableOpacity} from "react-native";
+import {Platform, TouchableOpacity} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {useTheme, XStack} from "tamagui";
 
 export default function Layout() {
     const router = useRouter();
     const theme = useTheme();
+    const isIos = Platform.OS === 'ios';
 
     return (
         <Stack>
@@ -40,7 +41,7 @@ export default function Layout() {
                             onPress={() => router.back()}
                             style={{flexDirection: 'row', alignItems: 'center', gap: 10}}
                         >
-                            <Ionicons name="arrow-back" size={24} style={{ color: theme.color12?.val }}/>
+                            <Ionicons name="arrow-back" size={24} style={{ color: theme.color12?.val, marginRight: isIos ? 0 : 10 }}/>
                             {/*<Text>Atras</Text>*/}
                         </TouchableOpacity>
                     )

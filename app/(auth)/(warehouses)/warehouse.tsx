@@ -1,6 +1,6 @@
 import {ScrollView, Text, useTheme, View, XStack, YStack} from "tamagui";
 import {Fragment, useCallback, useEffect, useLayoutEffect, useState} from "react";
-import {ActivityIndicator, Pressable, RefreshControl, TouchableOpacity} from "react-native";
+import {ActivityIndicator, Platform, Pressable, RefreshControl, TouchableOpacity} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useHeaderHeight} from "@react-navigation/elements";
 import {Stack, useNavigation, useRouter} from "expo-router";
@@ -14,6 +14,7 @@ export default function Page() {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const {bottom} = useSafeAreaInsets();
     const router = useRouter();
+    const isIos = Platform.OS === 'ios';
     const theme = useTheme();
     const [inputs, setInputs] = useState<any[]>([
         {id: 1, name: "Camarones"},
@@ -21,7 +22,7 @@ export default function Page() {
     ])
 
     const [data, setData] = useState<any[]>([
-        {id: 1, name: "Carnes"},
+        {id: 1, name: "Carnes", children: 2, warehouses: 0},
     ])
 
     const onRefresh = useCallback(() => {
@@ -95,7 +96,7 @@ export default function Page() {
                             onPress={() => router.back()}
                             style={{flexDirection: 'row', alignItems: 'center', gap: 10}}
                         >
-                            <Ionicons name="arrow-back" size={24} style={{color: theme.color12?.val}}/>
+                            <Ionicons name="arrow-back" size={24} style={{color: theme.color12?.val, marginRight: isIos ? 0 : 10}}/>
                             {/*<Text>Atras</Text>*/}
                         </TouchableOpacity>
                     )
@@ -112,19 +113,19 @@ export default function Page() {
                 }>
                 {
                     loading &&
-                    <YStack alignItems="center" marginTop={400} gap={10} justifyContent="center">
+                    <YStack alignItems="center" marginTop={300} gap={10} justifyContent="center">
                         <ActivityIndicator/>
                         <Text>Cargando...</Text>
                     </YStack>
                 }
                 {
                     !loading &&
-                    <YStack gap={10} marginTop={210}>
+                    <YStack gap={10} marginTop={isIos ? 210 : 0}>
                         <Text paddingHorizontal={20} marginVertical={10}>2 Resultados</Text>
 
                         {
                             inputs.map(item => (
-                                <Pressable key={item.id}  onPress={() => router.push({ pathname: '/detail', params: { mode: 'edit' } })}>
+                                <Pressable key={item.id}  onPress={() => router.push({ pathname: '/input_detail', params: { name: item.name, id: item.id } })}>
                                     <XStack
                                         gap={20}
                                         alignItems="center"
@@ -170,6 +171,8 @@ export default function Page() {
                                         />
                                         <YStack gap={6}>
                                             <Text fontSize={16}>{item.name}</Text>
+                                            <Text fontWeight="bold" color="$color10">insumos: {item.children} </Text>
+                                            <Text fontWeight="bold" color="$color10">Sub almacenes: {item.warehouses} </Text>
                                         </YStack>
                                     </XStack>
                                 </Pressable>
