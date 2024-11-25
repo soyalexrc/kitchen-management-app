@@ -27,7 +27,7 @@ export default function Page() {
                         </Link>
                     </XStack>
                     <XStack gap={20}>
-                        <Link style={{flex: 1}} href="/warehouses" asChild>
+                        <Link style={{flex: 1}} href="/(warehouses)/list" asChild>
                             <Button>Almacenes</Button>
                         </Link>
                         <Link style={{flex: 1}} href="/production" asChild>

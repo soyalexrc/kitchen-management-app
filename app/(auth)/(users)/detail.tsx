@@ -78,7 +78,7 @@ export default function Page() {
                     <TextInput
                         returnKeyType="done"
                         style={{
-                            backgroundColor: theme.color11?.val,
+                            backgroundColor: 'white',
                             borderRadius: 10,
                             padding: 10,
                             marginBottom: 20
@@ -91,7 +91,7 @@ export default function Page() {
                         returnKeyType="done"
                         placeholderTextColor={theme.color1?.val}
                         style={{
-                            backgroundColor: theme.color11?.val,
+                            backgroundColor: 'white',
                             color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
@@ -106,7 +106,7 @@ export default function Page() {
                         placeholder="usuario@gmail.com"
                         placeholderTextColor={theme.color10?.val}
                         style={{
-                            backgroundColor: theme.color11?.val,
+                            backgroundColor: 'white',
                             color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
@@ -121,7 +121,7 @@ export default function Page() {
                         placeholder="usuario1234"
                         placeholderTextColor={theme.color10?.val}
                         style={{
-                            backgroundColor: theme.color11?.val,
+                            backgroundColor: 'white',
                             color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
@@ -135,7 +135,7 @@ export default function Page() {
                         <DropdownMenu.Trigger>
                             <TouchableOpacity
                                 style={{
-                                    backgroundColor: theme.color11?.val,
+                                    backgroundColor: 'white',
                                     borderRadius: 10,
                                     padding: 10,
                                     marginBottom: 20,
@@ -182,7 +182,7 @@ export default function Page() {
                         returnKeyType="done"
                         placeholderTextColor={theme.color9?.val}
                         style={{
-                            backgroundColor: theme.color11?.val,
+                            backgroundColor: 'white',
                             color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
