@@ -81,13 +81,13 @@ export default function Index() {
                     <YStack gap={15}>
                         <TextInput
                             placeholder="Correo electrónico o Nombre de usuario"
-                            placeholderTextColor={theme.color5?.val}
                             value={email}
                             onChangeText={setEmail}
                             autoCapitalize='none'
+                            placeholderTextColor={theme.color1?.val}
                             style={{
-                                backgroundColor: theme.color1?.val,
-                                color: theme.color12?.val,
+                                backgroundColor: theme.color11?.val,
+                                color: theme.color1?.val,
                                 padding: 10,
                                 borderRadius: 12,
                             }}
@@ -97,10 +97,10 @@ export default function Index() {
                             value={password}
                             onChangeText={setPassword}
                             autoCapitalize='none'
-                            placeholderTextColor={theme.color5?.val}
+                            placeholderTextColor={theme.color1?.val}
                             style={{
-                                backgroundColor: theme.color1?.val,
-                                color: theme.color12?.val,
+                                backgroundColor: theme.color11?.val,
+                                color: theme.color1?.val,
                                 padding: 10,
                                 borderRadius: 12,
                             }}

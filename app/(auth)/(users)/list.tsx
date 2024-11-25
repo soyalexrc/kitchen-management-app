@@ -67,11 +67,11 @@ export default function Page() {
                                     paddingHorizontal={20}
                                     paddingTop={5}
                                     paddingBottom={10}
-                                    borderBottomColor="lightgray"
+                                    borderBottomColor="$color5"
                                     borderBottomWidth={.2}
                                 >
                                     <View
-                                        backgroundColor="$color1"
+                                        backgroundColor="white"
                                         width={50}
                                         height={50}
                                         borderRadius={100}

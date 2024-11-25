@@ -29,7 +29,7 @@ export function Header() {
                 <DropdownMenu.Root key="menu">
                     <DropdownMenu.Trigger>
                         <TouchableOpacity>
-                            <Ionicons name="menu" size={24}/>
+                            <Ionicons name="menu" size={24} style={{ color: theme.color12?.val }}/>
                         </TouchableOpacity>
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Content>
@@ -39,7 +39,7 @@ export function Header() {
                             </DropdownMenu.Item>
                         </DropdownMenu.Group>
                         <DropdownMenu.Group key="1">
-                            <DropdownMenu.Item key="logout" onSelect={() => signOut()}>
+                            <DropdownMenu.Item key="logout" onSelect={() => signOut({ redirectUrl: '/' })}>
                                 <DropdownMenu.ItemTitle >Cerrar sesion</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                         </DropdownMenu.Group>

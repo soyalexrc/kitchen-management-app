@@ -1,16 +1,23 @@
 import {Stack, useRouter} from "expo-router";
 import {TouchableOpacity} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
-import {Text, XStack} from "tamagui";
-import * as DropdownMenu from "zeego/dropdown-menu";
+import {useTheme, XStack} from "tamagui";
 
 export default function Layout() {
     const router = useRouter();
+    const theme = useTheme();
+
     return (
         <Stack>
             <Stack.Screen
-                name="index"
+                name="list"
                 options={{
+                    headerStyle: {
+                        backgroundColor: theme.color2?.val
+                    },
+                    headerTitleStyle: {
+                        color: theme.color12?.val
+                    },
                     headerLargeTitle: true,
                     title: 'Usuarios',
                     headerBackTitle: 'Atras',
@@ -21,10 +28,10 @@ export default function Layout() {
                     headerRight: () => (
                         <XStack gap={20}>
                             <TouchableOpacity>
-                                <Ionicons name="filter" size={24}/>
+                                <Ionicons name="filter" size={24} style={{ color: theme.color12?.val }} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => router.push({ pathname: '/detail', params: { mode: 'add' } })}>
-                                <Ionicons name="add" size={24}/>
+                                <Ionicons name="add" size={24} style={{ color: theme.color12?.val }} />
                             </TouchableOpacity>
                         </XStack>
                     ),
@@ -33,7 +40,7 @@ export default function Layout() {
                             onPress={() => router.back()}
                             style={{flexDirection: 'row', alignItems: 'center', gap: 10}}
                         >
-                            <Ionicons name="arrow-back" size={24}/>
+                            <Ionicons name="arrow-back" size={24} style={{ color: theme.color12?.val }}/>
                             {/*<Text>Atras</Text>*/}
                         </TouchableOpacity>
                     )
@@ -42,7 +49,13 @@ export default function Layout() {
             <Stack.Screen
                 name="detail"
                 options={{
-                    title: 'Detalle'
+                    title: 'Detalle',
+                    headerStyle: {
+                        backgroundColor: theme.color2?.val
+                    },
+                    headerTitleStyle: {
+                        color: theme.color12?.val
+                    },
                 }}
             />
         </Stack>

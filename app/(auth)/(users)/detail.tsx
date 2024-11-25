@@ -9,7 +9,7 @@ import {useLayoutEffect} from "react";
 
 export default function Page() {
     const theme = useTheme();
-    const { bottom } = useSafeAreaInsets();
+    const {bottom} = useSafeAreaInsets();
     const router = useRouter();
     const params = useSearchParams();
     const navigation = useNavigation();
@@ -17,11 +17,11 @@ export default function Page() {
     useLayoutEffect(() => {
         navigation.setOptions({
             title: params.get('mode') === 'add' ? 'Agregar usuario' : 'Editar usuario',
-            headerRight: params.get('mode')  === 'add' ? null : () => (
+            headerRight: params.get('mode') === 'add' ? null : () => (
                 <DropdownMenu.Root key="menu">
                     <DropdownMenu.Trigger>
                         <TouchableOpacity>
-                            <Ionicons name="ellipsis-vertical" size={24}/>
+                            <Ionicons name="ellipsis-vertical" size={24} style={{color: theme.color12?.val}}/>
                         </TouchableOpacity>
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Content>
@@ -50,14 +50,14 @@ export default function Page() {
                         width={120}
                         height={120}
                         borderRadius={100}
-                        backgroundColor="$color1"
+                        backgroundColor="white"
                     />
                     <TouchableOpacity
                         style={{
                             position: "absolute",
                             right: -10,
                             bottom: -10,
-                            backgroundColor: theme.color1?.val,
+                            backgroundColor: 'white',
                             borderWidth: 1,
                             borderColor: 'lightgray',
                             width: 40,
@@ -76,8 +76,9 @@ export default function Page() {
                 <YStack gap={10}>
                     <Text>Nombre</Text>
                     <TextInput
+                        returnKeyType="done"
                         style={{
-                            backgroundColor: theme.color1?.val,
+                            backgroundColor: theme.color11?.val,
                             borderRadius: 10,
                             padding: 10,
                             marginBottom: 20
@@ -87,8 +88,11 @@ export default function Page() {
                 <YStack gap={10}>
                     <Text>Apellido</Text>
                     <TextInput
+                        returnKeyType="done"
+                        placeholderTextColor={theme.color1?.val}
                         style={{
-                            backgroundColor: theme.color1?.val,
+                            backgroundColor: theme.color11?.val,
+                            color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
                             marginBottom: 20
@@ -98,9 +102,12 @@ export default function Page() {
                 <YStack gap={10}>
                     <Text>Correo electronico</Text>
                     <TextInput
+                        returnKeyType="done"
                         placeholder="usuario@gmail.com"
+                        placeholderTextColor={theme.color10?.val}
                         style={{
-                            backgroundColor: theme.color1?.val,
+                            backgroundColor: theme.color11?.val,
+                            color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
                             marginBottom: 20
@@ -110,9 +117,12 @@ export default function Page() {
                 <YStack gap={10}>
                     <Text>Nombre de usuario</Text>
                     <TextInput
+                        returnKeyType="done"
                         placeholder="usuario1234"
+                        placeholderTextColor={theme.color10?.val}
                         style={{
-                            backgroundColor: theme.color1?.val,
+                            backgroundColor: theme.color11?.val,
+                            color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
                             marginBottom: 20
@@ -125,7 +135,7 @@ export default function Page() {
                         <DropdownMenu.Trigger>
                             <TouchableOpacity
                                 style={{
-                                    backgroundColor: theme.color1?.val,
+                                    backgroundColor: theme.color11?.val,
                                     borderRadius: 10,
                                     padding: 10,
                                     marginBottom: 20,
@@ -135,7 +145,7 @@ export default function Page() {
                                 }}
                             >
                                 <Text color="gray">Seleccionar</Text>
-                                <Ionicons name="caret-down" size={24} />
+                                <Ionicons name="caret-down" size={24}/>
                             </TouchableOpacity>
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Content>
@@ -169,8 +179,11 @@ export default function Page() {
                 <YStack gap={10}>
                     <Text>Contrasena</Text>
                     <TextInput
+                        returnKeyType="done"
+                        placeholderTextColor={theme.color9?.val}
                         style={{
-                            backgroundColor: theme.color1?.val,
+                            backgroundColor: theme.color11?.val,
+                            color: theme.color1?.val,
                             borderRadius: 10,
                             padding: 10,
                             marginBottom: 20
@@ -179,7 +192,7 @@ export default function Page() {
                 </YStack>
             </YStack>
 
-            <Separator margin={20} />
+            <Separator margin={20}/>
 
             {/*<YStack>*/}
             {/*    <Text textAlign="center">Hoja de vida aqui...</Text>*/}
@@ -189,7 +202,7 @@ export default function Page() {
                 <Text>Guardar cambios</Text>
             </Button>
 
-            <View height={bottom} />
+            <View height={bottom}/>
         </ScrollView>
     )
 }

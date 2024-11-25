@@ -9,7 +9,7 @@ export default function Page() {
     const {top} = useSafeAreaInsets();
 
     return (
-        <View flex={1} paddingTop={top}>
+        <View flex={1} paddingTop={top} backgroundColor="$color2">
             <View paddingHorizontal={20}>
                 <Header/>
             </View>
@@ -19,7 +19,7 @@ export default function Page() {
                 </View>
                 <YStack flex={2} gap={20} paddingHorizontal={20}>
                     <XStack gap={20}>
-                        <Link style={{flex: 1}} href="/(users)" asChild>
+                        <Link style={{flex: 1}} href="/(users)/list" asChild>
                             <Button>Usuarios</Button>
                         </Link>
                         <Link style={{flex: 1}} href="/recipes" asChild>
