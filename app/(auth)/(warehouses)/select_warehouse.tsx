@@ -7,7 +7,7 @@ export default function Page() {
     const isIos = Platform.OS === 'ios';
 
     return (
-        <ScrollView paddingTop={isIos ? 170 : 0}>
+        <ScrollView paddingTop={isIos ? 170 : 0} backgroundColor="$color2">
             <View>
                 <Text>Salsas</Text>
             </View>

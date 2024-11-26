@@ -6,16 +6,9 @@ import {useHeaderHeight} from "@react-navigation/elements";
 import {useRouter} from "expo-router";
 
 const data = [
-    {id: 1, name: "Pedro Ramirez", role: "Chef", station: ''},
-    {id: 2, name: "Juan Perez", role: "Chef", station: ''},
-    {id: 3, name: "Maria Rodriguez", role: "Cocinero", station: 'Sartenes'},
-    {id: 4, name: "Josefa Lopez", role: "Cocinero", station: 'Panaderia'},
-    {id: 5, name: "Pedro Ramirez", role: "Cocinero", station: 'Sartenes'},
-    {id: 6, name: "Juan Perez", role: "Cocinero", station: 'Hornos'},
-    {id: 7, name: "Maria Rodriguez", role: "Cocinero", station: 'Pasteleria'},
-    {id: 8, name: "Josefa Lopez", role: "Cocinero", station: 'Hornos'},
-    {id: 9, name: "Pedro Ramirez", role: "Cocinero", station: 'Sartenes'},
-    {id: 10, name: "Juan Perez", role: "Cocinero", station: 'Hornos'},
+    {id: 1, name: "Pan baguete masa madre"},
+    {id: 2, name: "Mantequilla Wagyu"},
+    {id: 3, name: "Helado de chocolate"},
 ]
 
 export default function Page() {
@@ -44,11 +37,11 @@ export default function Page() {
             flex={1}
             backgroundColor="$color2"
             refreshControl={
-            <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-            />
-        }>
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+            }>
             {
                 loading &&
                 <YStack alignItems="center" marginTop={300} gap={10} justifyContent="center">
@@ -59,10 +52,11 @@ export default function Page() {
             {
                 !loading &&
                 <YStack gap={10} marginTop={isIos ? 210 : 0}>
-                    <Text paddingHorizontal={20} marginVertical={10}>10 Resultados</Text>
+                    <Text paddingHorizontal={20} marginVertical={10}>3 Resultados</Text>
                     {
                         data.map(item => (
-                            <Pressable key={item.id}  onPress={() => router.push({ pathname: '/detail', params: { mode: 'edit', name: item.name } })}>
+                            <Pressable key={item.id}
+                                       onPress={() => router.push({pathname: '/detail', params: {mode: 'edit', name: item.name}})}>
                                 <XStack
                                     gap={20}
                                     alignItems="center"
@@ -78,10 +72,7 @@ export default function Page() {
                                         height={50}
                                         borderRadius={100}
                                     />
-                                    <YStack gap={6}>
-                                        <Text fontSize={16}>{item.name}</Text>
-                                        <Text fontWeight="bold" color="$color10">{item.role} - {item.station}</Text>
-                                    </YStack>
+                                    <Text fontSize={18}>{item.name}</Text>
                                 </XStack>
                             </Pressable>
                         ))

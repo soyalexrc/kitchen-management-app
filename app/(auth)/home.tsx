@@ -22,7 +22,7 @@ export default function Page() {
                         <Link style={{flex: 1}} href="/(users)/list" asChild>
                             <Button>Usuarios</Button>
                         </Link>
-                        <Link style={{flex: 1}} href="/recipes" asChild>
+                        <Link style={{flex: 1}} href="/(recipes)/list" asChild>
                             <Button>Recetas</Button>
                         </Link>
                     </XStack>

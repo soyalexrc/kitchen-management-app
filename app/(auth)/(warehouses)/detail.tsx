@@ -16,7 +16,7 @@ export default function Page() {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: params.get('mode') === 'add' ? 'Crear almacen' : 'Editar almacen',
+            title: params.get('mode') === 'add' ? 'Nuevo Almacen' : params.get('name'),
             headerRight: params.get('mode') === 'add' ? null : () => (
                 <DropdownMenu.Root key="menu">
                     <DropdownMenu.Trigger>

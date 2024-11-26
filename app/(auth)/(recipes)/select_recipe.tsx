@@ -9,7 +9,7 @@ export default function Page() {
     return (
         <ScrollView paddingTop={isIos ? 170 : 0} backgroundColor="$color2">
             <View>
-                <Text>Camaron</Text>
+                <Text>Mantequilla negra</Text>
             </View>
 
         </ScrollView>

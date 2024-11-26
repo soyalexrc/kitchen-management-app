@@ -73,7 +73,7 @@ export default function Page() {
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content>
                                 <DropdownMenu.Group key="0">
-                                    <DropdownMenu.Item key="edit" onSelect={() => router.push({ pathname: '/detail', params: { mode: 'edit' } })}>
+                                    <DropdownMenu.Item key="edit" onSelect={() => router.push({ pathname: '/detail', params: { mode: 'edit', name: 'Test' } })}>
                                         <DropdownMenu.ItemTitle>Editar</DropdownMenu.ItemTitle>
                                     </DropdownMenu.Item>
                                     <DropdownMenu.Item key="input" onSelect={() => router.push({ pathname: '/select_input', params: { id: 123 } })}>

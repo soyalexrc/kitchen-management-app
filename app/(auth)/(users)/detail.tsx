@@ -16,7 +16,7 @@ export default function Page() {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: params.get('mode') === 'add' ? 'Agregar usuario' : 'Editar usuario',
+            title: params.get('mode') === 'add' ? 'Nuevo usuario' : params.get('name'),
             headerRight: params.get('mode') === 'add' ? null : () => (
                 <DropdownMenu.Root key="menu">
                     <DropdownMenu.Trigger>
