@@ -24,7 +24,7 @@ export function Header() {
                     />
                     <YStack gap={6}>
                         <Text>{user?.fullName}</Text>
-                        <Text>{user?.publicMetadata?.role} - {user?.publicMetadata?.station}</Text>
+                        <Text>{user?.publicMetadata?.role} {user?.publicMetadata?.station && `- ${user?.publicMetadata?.station}`}</Text>
                     </YStack>
                 </XStack>
                 <DropdownMenu.Root key="menu">

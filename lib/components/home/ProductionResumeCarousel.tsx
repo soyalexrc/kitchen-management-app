@@ -1,97 +1,80 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import {Text, useTheme, View, XStack} from 'tamagui';
 import Carousel from 'react-native-reanimated-carousel/src/Carousel';
-import { Dimensions, Pressable, StyleSheet } from 'react-native';
+import {Dimensions, Pressable, StyleSheet} from 'react-native';
 import {useUser} from "@clerk/clerk-expo";
+import {Ionicons} from "@expo/vector-icons";
+import {Link, useRouter} from "expo-router";
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const cards = [
     {
-        type: 'Credit',
-        source: 'visa',
-        lastFour: '5168',
-        bg: "#0f153b",
-        creditLine: 70000,
-        balance: 50000,
-        preferred_currency_symbol: 'S/',
-        preferred_currency_code: 'PEN'
+        status: 'In process',
     },
     {
-        type: 'Credit',
-        source: 'mastercard',
-        lastFour: '4289',
-        bg: "#000000",
-        creditLine: 22600,
-        balance: 22000,
-        preferred_currency_symbol: 'S/',
-        preferred_currency_code: 'PEN'
+        status: 'Completed',
     },
     {
-        type: 'Debit',
-        source: 'visa',
-        lastFour: '4878',
-        bg: "#17A2A2",
-        creditLine: 16000,
-        balance: 12000,
-        preferred_currency_symbol: 'S/',
-        preferred_currency_code: 'PEN'
+        status: 'Rejected',
     },
-    {
-        type: 'Credit',
-        source: 'amex',
-        lastFour: '4878',
-        bg: "#bdbec2",
-        creditLine: 90000,
-        balance: 48000,
-        preferred_currency_symbol: 'S/',
-        preferred_currency_code: 'PEN'
-    },
-    {
-        type: 'Credit',
-        source: 'discover',
-        lastFour: '4878',
-        bg: "#3f9328",
-        creditLine: 5000,
-        balance: 3500,
-        preferred_currency_symbol: 'S/',
-        preferred_currency_code: 'PEN'
-    }
 ]
 
 export function ProductionResumeCarousel() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const theme = useTheme();
     const {user} = useUser();
+    const router = useRouter();
 
     return (
         <View>
             <Carousel
                 loop={false}
                 width={width}
-                height={(width / 2)}
+                height={190}
                 data={cards}
                 scrollAnimationDuration={500}
                 onSnapToItem={(index) => setCurrentIndex(index)}
-                renderItem={({ item }) => {
+                renderItem={({item}) => {
                     return (
-                        <Pressable>
-                            <View style={[styles.creditCard, { backgroundColor: item.bg }]}>
-                                <View style={styles.cardDetailsView}>
-                                    <Text style={styles.cardDetailsText}>**** **** **** {item.lastFour}</Text>
-                                    <View style={styles.progressBar}>
-                                        <View
-                                            style={[styles.progress, { width: `${(item.balance / item.creditLine) * 100}%` }]} />
-                                    </View>
-                                    <XStack justifyContent="space-between">
-                                        <Text
-                                            style={styles.cardDetailsText}>{item.preferred_currency_symbol} {item.balance}</Text>
-                                        <Text
-                                            style={styles.cardDetailsText}>{item.preferred_currency_symbol} {item.creditLine}</Text>
-                                    </XStack>
-                                </View>
+                        <View
+                            style={{
+                                backgroundColor: theme.color12?.val,
+                                width: width - 20,
+                                borderRadius: 15,
+                                paddingVertical: 15,
+                                paddingHorizontal: 20
+                            }}>
+                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de
+                                receta</Text>
+                            <View style={styles.progressBar}>
+                                <View
+                                    style={{
+                                        height: '100%',
+                                        width: item.status === 'In process' ? '50%' : item.status === 'Completed' ? '100%' : '0%',
+                                        backgroundColor: item.status === 'In process' ? '#e5c62d' : item.status === 'Completed' ? '#e5c62d' : 'red'
+                                    }}
+                                />
                             </View>
-                        </Pressable>
+                            <XStack justifyContent="space-between" marginTop={10}>
+                                <XStack alignItems="center" gap={6}>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val}/>
+                                    <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
+                                </XStack>
+                                <XStack alignItems="center" gap={6}>
+                                    <Text fontSize={18} color={theme.color1?.val}>--:--</Text>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val}/>
+                                </XStack>
+                            </XStack>
+                            {/*<Link asChild href={`/(auth)/(production)/closing_process`}>*/}
+                                <XStack justifyContent="center" marginTop={10}>
+                                    <View backgroundColor={item.status === 'In process' ? '#E2DA93' : item.status === 'Completed' ? '#E2DA93' : '#E29393'} paddingVertical={6} paddingHorizontal={12}
+                                          borderRadius={100}>
+                                        <Text color="black" fontWeight="bold">{ item.status === 'In process' ? 'En proceso' : item.status === 'Completed' ? 'Pendiente por valiacion' : 'Rechazada. Contactar Chef' }</Text>
+                                    </View>
+                                </XStack>
+                            {/*</Link>*/}
+                        </View>
                     )
                 }}
             />
@@ -103,7 +86,7 @@ export function ProductionResumeCarousel() {
                             key={index}
                             style={[
                                 styles.dot,
-                                currentIndex === index ? { backgroundColor: theme.color11?.val } : { backgroundColor: theme.color4?.val }
+                                currentIndex === index ? {backgroundColor: theme.color11?.val} : {backgroundColor: theme.color4?.val}
                             ]}
                         />
                     ))}
@@ -146,16 +129,12 @@ const styles = StyleSheet.create({
         includeFontPadding: false
     },
     progressBar: {
-        height: 3,
+        height: 5,
         width: '100%',
         backgroundColor: '#e0e0e0',
         borderRadius: 5,
         overflow: 'hidden',
         marginTop: 5,
-    },
-    progress: {
-        height: '100%',
-        backgroundColor: '#5EAA4BFF',
     },
     pagination: {
         flexDirection: 'row',

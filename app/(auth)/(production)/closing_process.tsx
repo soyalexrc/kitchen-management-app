@@ -1,11 +1,8 @@
-import {Button, ScrollView, Separator, Text, useTheme, View, XStack, YStack, ZStack} from "tamagui";
-import {Pressable, TextInput, TouchableOpacity} from "react-native";
-import {Ionicons} from "@expo/vector-icons";
+import {Button, ScrollView, Text, useTheme, View, XStack, YStack} from "tamagui";
+import {Pressable, TextInput} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import * as DropdownMenu from "zeego/dropdown-menu";
-import {useNavigation, useRouter} from "expo-router";
-import {useSearchParams} from "expo-router/build/hooks";
-import {useLayoutEffect, useState} from "react";
+import {useRouter} from "expo-router";
+import {useState} from "react";
 
 export default function Page() {
     const theme = useTheme();
@@ -57,8 +54,17 @@ export default function Page() {
                                         <Text fontSize={16}>{item.name}</Text>
                                     </XStack>
 
-                                    <XStack gap={6}>
-                                        <Text>{item.quantity}</Text>
+                                    <XStack gap={10} alignItems="center">
+                                        <TextInput
+                                            keyboardType="numeric"
+                                            returnKeyType="done"
+                                            style={{
+                                                backgroundColor: 'white',
+                                                borderRadius: 10,
+                                                padding: 6,
+                                                width: 50
+                                            }}
+                                        />
                                         <Text>{item.measure}</Text>
                                     </XStack>
                                 </XStack>
@@ -68,7 +74,7 @@ export default function Page() {
                 </YStack>
             </YStack>
 
-            <Button margin={20} onPress={() => router.back()}>
+            <Button marginHorizontal={20} marginVertical={40} onPress={() => router.back()}>
                 <Text>Completar</Text>
             </Button>
 

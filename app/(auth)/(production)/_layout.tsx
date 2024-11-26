@@ -70,6 +70,17 @@ export default function Layout() {
                         color: theme.color12?.val
                     },
                 }}/>
+            <Stack.Screen
+                name="validation"
+                options={{
+                    title: 'Validacion',
+                    headerStyle: {
+                        backgroundColor: theme.color2?.val
+                    },
+                    headerTitleStyle: {
+                        color: theme.color12?.val
+                    },
+                }}/>
         </Stack>
     )
 }

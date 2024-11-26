@@ -21,7 +21,7 @@ export default function Page() {
     const [loading, setLoading] = useState<boolean>(true);
     const {user} = useUser();
     const [refreshing, setRefreshing] = useState<boolean>(false);
-    const processes: number = 1;
+    const processes: number = 2;
     const {bottom} = useSafeAreaInsets();
     const router = useRouter();
     const isIos = Platform.OS === 'ios';
@@ -118,70 +118,91 @@ export default function Page() {
                     }>
 
                     <YStack gap={10} marginTop={isIos ? 210 : 0}>
-                        <Text paddingHorizontal={20} marginVertical={10}>2 Resultados</Text>
+                        <Text paddingHorizontal={20} marginVertical={10}>3 Resultados</Text>
 
-                        {
-                            inputs.map(item => (
-                                <Pressable key={item.id} onPress={() => router.push({
-                                    pathname: '/input_detail',
-                                    params: {name: item.name, id: item.id}
-                                })}>
-                                    <XStack
-                                        gap={20}
-                                        alignItems="center"
-                                        paddingHorizontal={20}
-                                        paddingTop={5}
-                                        paddingBottom={10}
-                                        borderBottomColor="$color5"
-                                        borderBottomWidth={.2}
-                                    >
-                                        <View
-                                            backgroundColor="white"
-                                            width={30}
-                                            height={30}
-                                            borderRadius={100}
-                                        />
-                                        <YStack gap={6}>
-                                            <Text fontSize={16}>{item.name}</Text>
-                                        </YStack>
-                                    </XStack>
-                                </Pressable>
-                            ))
-                        }
 
-                        <Text fontSize={20} margin={20} fontWeight="bold">Sub Almacenes</Text>
 
-                        {
-                            data.map(item => (
-                                <Pressable key={item.id} onPress={() => router.push({
-                                    pathname: '/warehouse',
-                                    params: {name: item.name, id: item.id}
-                                })}>
-                                    <XStack
-                                        gap={20}
-                                        alignItems="center"
-                                        paddingHorizontal={20}
-                                        paddingTop={5}
-                                        paddingBottom={10}
-                                        borderBottomColor="$color5"
-                                        borderBottomWidth={.2}
-                                    >
-                                        <View
-                                            backgroundColor="white"
-                                            width={50}
-                                            height={50}
-                                            borderRadius={100}
-                                        />
-                                        <YStack gap={6}>
-                                            <Text fontSize={16}>{item.name}</Text>
-                                            <Text fontWeight="bold" color="$color10">insumos: {item.children} </Text>
-                                            <Text fontWeight="bold" color="$color10">Sub
-                                                almacenes: {item.warehouses} </Text>
-                                        </YStack>
-                                    </XStack>
-                                </Pressable>
-                            ))
-                        }
+                        <Text fontSize={20} margin={20} fontWeight="bold">En proceso</Text>
+
+                        <Pressable
+                            onPress={() => router.push('/validation')}
+                            style={{
+                                backgroundColor: theme.color12?.val,
+                                width: width - 20,
+                                borderRadius: 15,
+                                paddingVertical: 15,
+                                paddingHorizontal: 20
+                            }}>
+                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
+                            <View style={styles.progressBar}>
+                                <View
+                                    style={[styles.progress, { width: '50%' }]} />
+                            </View>
+                            <XStack justifyContent="space-between" marginTop={10}>
+                                <XStack alignItems="center" gap={6}>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                    <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
+                                </XStack>
+                                <XStack alignItems="center" gap={6}>
+                                    <Text fontSize={18} color={theme.color1?.val}>--:--</Text>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                </XStack>
+                            </XStack>
+                        </Pressable>
+
+                        <Pressable
+                            onPress={() => router.push('/validation')}
+                            style={{
+                                backgroundColor: theme.color12?.val,
+                                width: width - 20,
+                                borderRadius: 15,
+                                paddingVertical: 15,
+                                paddingHorizontal: 20
+                            }}>
+                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
+                            <View style={styles.progressBar}>
+                                <View
+                                    style={[styles.progress, { width: '50%' }]} />
+                            </View>
+                            <XStack justifyContent="space-between" marginTop={10}>
+                                <XStack alignItems="center" gap={6}>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                    <Text fontSize={18} color={theme.color1?.val}>3:30 PM</Text>
+                                </XStack>
+                                <XStack alignItems="center" gap={6}>
+                                    <Text fontSize={18} color={theme.color1?.val}>--:--</Text>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                </XStack>
+                            </XStack>
+                        </Pressable>
+
+                        <Text fontSize={20} margin={20} fontWeight="bold">Completados</Text>
+
+                        <Pressable
+                            onPress={() => router.push('/validation')}
+                            style={{
+                                backgroundColor: theme.color12?.val,
+                                width: width - 20,
+                                borderRadius: 15,
+                                paddingVertical: 15,
+                                paddingHorizontal: 20
+                            }}>
+                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
+                            <View style={styles.progressBar}>
+                                <View
+                                    style={{ width: '100%', height: '100%', backgroundColor: '#5DE72F' }} />
+                            </View>
+                            <XStack justifyContent="space-between" marginTop={10}>
+                                <XStack alignItems="center" gap={6}>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                    <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
+                                </XStack>
+                                <XStack alignItems="center" gap={6}>
+                                    <Text fontSize={18} color={theme.color1?.val}>12:55 PM</Text>
+                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                </XStack>
+                            </XStack>
+                        </Pressable>
                     </YStack>
                     <View height={bottom}/>
                 </ScrollView>
@@ -246,6 +267,43 @@ export default function Page() {
                                 <TouchableOpacity onPress={() => router.back()}>
                                     <Text>Volver</Text>
                                 </TouchableOpacity>
+                            </YStack>
+                        </YStack>
+                    }
+                    {
+                        processes === 2 &&
+                        <YStack gap={10} flex={1} backgroundColor="$color2" paddingBottom={bottom} justifyContent="space-between" alignItems="center">
+                            <View />
+                            <YStack gap={16} alignItems="center">
+                                <Ionicons name="checkmark-circle" size={150} color="green" />
+                                <Text fontSize={28}>Tu receta esta pendiente por revision</Text>
+                                <View
+                                    style={{
+                                        backgroundColor: theme.color12?.val,
+                                        width: width - 20,
+                                        borderRadius: 15,
+                                        paddingVertical: 15,
+                                        paddingHorizontal: 20
+                                    }}>
+                                    <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
+                                    <View style={styles.progressBar}>
+                                        <View
+                                            style={[styles.progress, { width: '100%' }]} />
+                                    </View>
+                                    <XStack justifyContent="space-between" marginTop={10}>
+                                        <XStack alignItems="center" gap={6}>
+                                            <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                            <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
+                                        </XStack>
+                                        <XStack alignItems="center" gap={6}>
+                                            <Text fontSize={18} color={theme.color1?.val}>13:45</Text>
+                                            <Ionicons name='time' size={24} color={theme.color1?.val} />
+                                        </XStack>
+                                    </XStack>
+                                </View>
+                            </YStack>
+                            <YStack gap={16} alignItems="center">
+                                <Button  width={260}>Entendido</Button>
                             </YStack>
                         </YStack>
                     }
