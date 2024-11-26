@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "kitchen-management-app",
+    "name": "Kitchen Boss",
     "description": "An app to manage your business from your kitchen.",
-    "slug": "kitchen-management-app",
+    "slug": "kitchen-boss",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

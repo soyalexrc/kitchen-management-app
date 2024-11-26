@@ -62,7 +62,7 @@ export default function Index() {
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }}  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <View flex={1} backgroundColor="$color2" paddingTop={top} paddingBottom={bottom}>
+            <View flex={1} backgroundColor="$color2" paddingTop={top}>
                 <XStack justifyContent="center" marginTop={50}>
                     <XStack
                         justifyContent="center"
@@ -81,7 +81,7 @@ export default function Index() {
                     </XStack>
                 </XStack>
 
-                <YStack gap={40} backgroundColor="$color1" flex={1} marginTop={20} paddingHorizontal={20} paddingTop={50} borderTopRightRadius={20} borderTopLeftRadius={20}>
+                <YStack gap={40} backgroundColor="$color1" flex={1} marginTop={20} paddingHorizontal={20}  paddingBottom={bottom + 20} paddingTop={50} borderTopRightRadius={20} borderTopLeftRadius={20}>
                     <YStack gap={15}>
                         <TextInput
                             placeholder="Correo electrónico o Nombre de usuario"
@@ -111,6 +111,7 @@ export default function Index() {
                             }}
                         />
                     </YStack>
+                    <View flex={1} />
                     <Button
                         onPress={onSignInPress}
                         disabled={loading}
