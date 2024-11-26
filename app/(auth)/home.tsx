@@ -30,7 +30,7 @@ export default function Page() {
                         <Link style={{flex: 1}} href="/(warehouses)/list" asChild>
                             <Button>Almacenes</Button>
                         </Link>
-                        <Link style={{flex: 1}} href="/production" asChild>
+                        <Link style={{flex: 1}} href="/(production)/list" asChild>
                             <Button>Produccion</Button>
                         </Link>
                     </XStack>
