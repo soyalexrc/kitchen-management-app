@@ -53,6 +53,7 @@ export default function Page() {
     useLayoutEffect(() => {
         if (user?.publicMetadata?.role === 'Chef' || user?.publicMetadata?.role === 'Admin') {
             navigation.setOptions({
+                headerLargeTitle: true,
                 headerSearchBarOptions: {
                     autoCapitalize: 'none',
                     inputType: 'text',
@@ -204,7 +205,7 @@ export default function Page() {
                             </XStack>
                         </Pressable>
                     </YStack>
-                    <View height={bottom}/>
+                    <View height={bottom + 50}/>
                 </ScrollView>
             }
 
@@ -228,7 +229,7 @@ export default function Page() {
                     }
                     {
                         processes === 1 &&
-                        <YStack gap={10} flex={1} backgroundColor="$color2" paddingBottom={bottom} justifyContent="space-between" alignItems="center">
+                        <YStack gap={10} flex={1} backgroundColor="$color2" paddingBottom={bottom + 20} justifyContent="space-between" alignItems="center">
                             <View />
                             <YStack gap={16}>
                                 <Text fontSize={28}>Tienes una receta en proceso</Text>
@@ -272,7 +273,7 @@ export default function Page() {
                     }
                     {
                         processes === 2 &&
-                        <YStack gap={10} flex={1} backgroundColor="$color2" paddingBottom={bottom} justifyContent="space-between" alignItems="center">
+                        <YStack gap={10} flex={1} backgroundColor="$color2" paddingBottom={bottom + 20} justifyContent="space-between" alignItems="center">
                             <View />
                             <YStack gap={16} alignItems="center">
                                 <Ionicons name="checkmark-circle" size={150} color="green" />

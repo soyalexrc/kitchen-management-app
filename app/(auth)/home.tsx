@@ -7,6 +7,7 @@ import {ProductionResumeCarousel} from "@/lib/components/home/ProductionResumeCa
 
 export default function Page() {
     const {top} = useSafeAreaInsets();
+    const { user } = useUser();
 
     return (
         <View flex={1} paddingTop={top} backgroundColor="$color2">
@@ -19,9 +20,13 @@ export default function Page() {
                 </View>
                 <YStack flex={2} gap={20} paddingHorizontal={20}>
                     <XStack gap={20}>
-                        <Link style={{flex: 1}} href="/(users)/list" asChild>
-                            <Button>Usuarios</Button>
-                        </Link>
+                        {
+                            user?.publicMetadata?.role !== 'Cocinero' &&
+                            <Link style={{flex: 1}} href="/(users)/list" asChild>
+                                <Button>Usuarios</Button>
+                            </Link>
+                        }
+
                         <Link style={{flex: 1}} href="/(recipes)/list" asChild>
                             <Button>Recetas</Button>
                         </Link>
