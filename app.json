@@ -2,7 +2,7 @@
   "expo": {
     "name": "Kitchen Boss",
     "description": "An app to manage your business from your kitchen.",
-    "slug": "kitchen-boss",
+    "slug": "kitchen-management-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -31,7 +31,8 @@
         "android.permission.USE_FINGERPRINT",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.alexrc.kitchenmanagementapp"
+      "package": "com.alexrc.kitchenmanagementapp",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
