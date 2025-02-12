@@ -3,7 +3,7 @@ import * as SplashScreen from "expo-splash-screen";
 import {useCallback, useEffect, useState} from "react";
 import * as Font from 'expo-font';
 import {Entypo, Ionicons} from "@expo/vector-icons";
-import {View} from "tamagui";
+import {View} from "react-native";
 import Providers from "@/lib/components/Providers";
 import {useFonts} from "expo-font";
 import {useAuth} from "@clerk/clerk-expo";
@@ -85,7 +85,7 @@ function InitialLayout() {
         return <Slot />;
     }
     return (
-        <View flex={1}
+        <View style={{ flex: 1 }}
               onLayout={onLayoutRootView}
         >
             <Stack>

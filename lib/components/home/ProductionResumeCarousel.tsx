@@ -1,29 +1,21 @@
-import {useState} from 'react';
-import {Text, useTheme, View, XStack} from 'tamagui';
+import { useState } from 'react';
+import { Text, View, StyleSheet, Dimensions, Pressable } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel/src/Carousel';
-import {Dimensions, Pressable, StyleSheet} from 'react-native';
-import {useUser} from "@clerk/clerk-expo";
-import {Ionicons} from "@expo/vector-icons";
-import {Link, useRouter} from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const cards = [
-    {
-        status: 'In process',
-    },
-    {
-        status: 'Completed',
-    },
-    {
-        status: 'Rejected',
-    },
-]
+    { status: 'In process' },
+    { status: 'Completed' },
+    { status: 'Rejected' },
+];
 
 export function ProductionResumeCarousel() {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const theme = useTheme();
-    const {user} = useUser();
+    const { user } = useUser();
     const router = useRouter();
 
     return (
@@ -35,106 +27,110 @@ export function ProductionResumeCarousel() {
                 data={cards}
                 scrollAnimationDuration={500}
                 onSnapToItem={(index) => setCurrentIndex(index)}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                     return (
-                        <View
-                            style={{
-                                backgroundColor: theme.color12?.val,
-                                width: width - 20,
-                                borderRadius: 15,
-                                paddingVertical: 15,
-                                paddingHorizontal: 20
-                            }}>
-                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de
-                                receta</Text>
-                            <View style={styles.progressBar}>
+                        <View style={[styles.card, { backgroundColor: '#333' }]}>
+                            <Text style={styles.title}>Nombre de receta</Text>
+                            <View style={styles.progressBarContainer}>
                                 <View
-                                    style={{
-                                        height: '100%',
+                                    style={[styles.progressBar, {
                                         width: item.status === 'In process' ? '50%' : item.status === 'Completed' ? '100%' : '0%',
                                         backgroundColor: item.status === 'In process' ? '#e5c62d' : item.status === 'Completed' ? '#e5c62d' : 'red'
-                                    }}
+                                    }]}
                                 />
                             </View>
-                            <XStack justifyContent="space-between" marginTop={10}>
-                                <XStack alignItems="center" gap={6}>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val}/>
-                                    <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
-                                </XStack>
-                                <XStack alignItems="center" gap={6}>
-                                    <Text fontSize={18} color={theme.color1?.val}>--:--</Text>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val}/>
-                                </XStack>
-                            </XStack>
-                            {/*<Link asChild href={`/(auth)/(production)/closing_process`}>*/}
-                                <XStack justifyContent="center" marginTop={10}>
-                                    <View backgroundColor={item.status === 'In process' ? '#E2DA93' : item.status === 'Completed' ? '#E2DA93' : '#E29393'} paddingVertical={6} paddingHorizontal={12}
-                                          borderRadius={100}>
-                                        <Text color="black" fontWeight="bold">{ item.status === 'In process' ? 'En proceso' : item.status === 'Completed' ? 'Pendiente por valiacion' : 'Rechazada. Contactar Chef' }</Text>
-                                    </View>
-                                </XStack>
-                            {/*</Link>*/}
+                            <View style={styles.timeContainer}>
+                                <View style={styles.timeItem}>
+                                    <Ionicons name='time' size={24} color='#fff' />
+                                    <Text style={styles.timeText}>9:25 AM</Text>
+                                </View>
+                                <View style={styles.timeItem}>
+                                    <Text style={styles.timeText}>--:--</Text>
+                                    <Ionicons name='time' size={24} color='#fff' />
+                                </View>
+                            </View>
+                            <View style={styles.statusContainer}>
+                                <View style={[styles.statusBadge, {
+                                    backgroundColor: item.status === 'In process' ? '#E2DA93' : item.status === 'Completed' ? '#E2DA93' : '#E29393'
+                                }]}
+                                >
+                                    <Text style={styles.statusText}>{
+                                        item.status === 'In process' ? 'En proceso' : item.status === 'Completed' ? 'Pendiente por validación' : 'Rechazada. Contactar Chef'
+                                    }</Text>
+                                </View>
+                            </View>
                         </View>
-                    )
+                    );
                 }}
             />
-            {
-                cards.length > 1 &&
+            {cards.length > 1 && (
                 <View style={styles.pagination}>
                     {cards.map((_, index) => (
                         <View
                             key={index}
                             style={[
                                 styles.dot,
-                                currentIndex === index ? {backgroundColor: theme.color11?.val} : {backgroundColor: theme.color4?.val}
+                                currentIndex === index ? styles.activeDot : styles.inactiveDot
                             ]}
                         />
                     ))}
                 </View>
-            }
+            )}
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
-    creditCard: {
-        width: '90%',
-        height: height * 0.2,
-        borderRadius: 20,
-        padding: 30,
-        justifyContent: 'space-between',
-        alignSelf: 'center'
+    card: {
+        width: width - 20,
+        borderRadius: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
     },
-    creditAndVisaView: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+    title: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
-    creditText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        letterSpacing: 2,
-        fontFamily: 'Ubuntu-Regular',
-        includeFontPadding: false
-    },
-    cardDetailsView: {
-        flexDirection: 'column'
-    },
-    cardDetailsText: {
-        color: "#FFFFFF",
-        fontFamily: "IBMPlexMono-Regular",
-        fontSize: 16,
-        letterSpacing: 2,
-        paddingTop: '2.5%',
-        includeFontPadding: false
-    },
-    progressBar: {
+    progressBarContainer: {
         height: 5,
         width: '100%',
         backgroundColor: '#e0e0e0',
         borderRadius: 5,
         overflow: 'hidden',
         marginTop: 5,
+    },
+    progressBar: {
+        height: '100%',
+    },
+    timeContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+    },
+    timeItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    timeText: {
+        fontSize: 18,
+        color: '#fff',
+    },
+    statusContainer: {
+        justifyContent: 'center',
+        marginTop: 10,
+        alignItems: 'center',
+    },
+    statusBadge: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 100,
+    },
+    statusText: {
+        color: 'black',
+        fontWeight: 'bold',
     },
     pagination: {
         flexDirection: 'row',
@@ -146,5 +142,11 @@ const styles = StyleSheet.create({
         height: 8,
         borderRadius: 4,
         marginHorizontal: 4,
+    },
+    activeDot: {
+        backgroundColor: '#fff',
+    },
+    inactiveDot: {
+        backgroundColor: '#888',
     },
 });

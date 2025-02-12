@@ -1,5 +1,3 @@
-import {Button, ScrollView, Text, useTheme, View, XStack, YStack} from "tamagui";
-import {Fragment, useCallback, useEffect, useLayoutEffect, useState} from "react";
 import {
     ActivityIndicator,
     Dimensions,
@@ -7,15 +5,18 @@ import {
     Pressable,
     RefreshControl,
     StyleSheet,
-    TouchableOpacity
+    Text,
+    TouchableOpacity,
+    View,
+    ScrollView
 } from "react-native";
+import {Fragment, useCallback, useEffect, useLayoutEffect, useState} from "react";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {Stack, useNavigation, useRouter} from "expo-router";
 import {Ionicons} from "@expo/vector-icons";
 import {useUser} from "@clerk/clerk-expo";
 
-const { width, height } = Dimensions.get('window');
-
+const {width} = Dimensions.get('window');
 
 export default function Page() {
     const [loading, setLoading] = useState<boolean>(true);
@@ -25,15 +26,6 @@ export default function Page() {
     const {bottom} = useSafeAreaInsets();
     const router = useRouter();
     const isIos = Platform.OS === 'ios';
-    const theme = useTheme();
-    const [inputs, setInputs] = useState<any[]>([
-        {id: 1, name: "Camarones"},
-        {id: 2, name: "Pulpa de fruta"},
-    ])
-
-    const [data, setData] = useState<any[]>([
-        {id: 1, name: "Carnes", children: 2, warehouses: 0},
-    ])
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -46,276 +38,160 @@ export default function Page() {
         setTimeout(() => {
             setLoading(false);
         }, 2000);
-    }, [])
+    }, []);
 
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     useLayoutEffect(() => {
-        if (user?.publicMetadata?.role === 'Chef' || user?.publicMetadata?.role === 'Admin') {
-            navigation.setOptions({
-                headerLargeTitle: true,
-                headerSearchBarOptions: {
-                    autoCapitalize: 'none',
-                    inputType: 'text',
-                },
-                headerRight: () => (
-                    <TouchableOpacity>
-                        <Ionicons name="filter" size={24} style={{color: theme.color12?.val}}/>
-                    </TouchableOpacity>
-                ),
-            })
-        } else {
-            navigation.setOptions({
-                headerRight: () => (
-                    <TouchableOpacity>
-                        <Ionicons name="list" size={24} style={{color: theme.color12?.val}}/>
-                    </TouchableOpacity>
-                ),
-            })
-        }
+        navigation.setOptions({
+            headerLargeTitle: true,
+            headerSearchBarOptions: {
+                autoCapitalize: 'none',
+                inputType: 'text',
+            },
+            headerRight: () => (
+                <TouchableOpacity>
+                    <Ionicons name={user?.publicMetadata?.role === 'Chef' || user?.publicMetadata?.role === 'Admin' ? "filter" : "list"} size={24} style={styles.icon}/>
+                </TouchableOpacity>
+            ),
+        });
     }, [navigation]);
 
     return (
         <Fragment>
             <Stack.Screen
                 options={{
-                    headerStyle: {
-                        backgroundColor: theme.color2?.val
-                    },
-                    headerTitleStyle: {
-                        color: theme.color12?.val
-                    },
-                    title: 'Produccion',
-                    headerBackTitle: 'Atras',
+                    headerStyle: styles.header,
+                    headerTitleStyle: styles.headerTitle,
+                    title: 'Producción',
+                    headerBackTitle: 'Atrás',
                     headerLeft: () => (
                         <TouchableOpacity
                             onPress={() => router.back()}
-                            style={{flexDirection: 'row', alignItems: 'center', gap: 10}}
+                            style={styles.headerLeft}
                         >
-                            <Ionicons name="arrow-back" size={24}
-                                      style={{color: theme.color12?.val, marginRight: isIos ? 0 : 10}}/>
-                            {/*<Text>Atras</Text>*/}
+                            <Ionicons name="arrow-back" size={24} style={styles.icon}/>
                         </TouchableOpacity>
                     )
                 }}
             />
-            {
-                loading &&
-                <YStack alignItems="center" flex={1} backgroundColor="$color2" gap={10} justifyContent="center">
+            {loading ? (
+                <View style={styles.loadingContainer}>
                     <ActivityIndicator/>
                     <Text>Cargando...</Text>
-                </YStack>
-            }
-            {
-                !loading && user?.publicMetadata?.role !== 'Cocinero' &&
+                </View>
+            ) : (
                 <ScrollView
-                    flex={1}
-                    backgroundColor="$color2"
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }>
+                    style={styles.scrollView}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+                >
+                    <View style={styles.container}>
+                        <Text style={styles.resultsText}>3 Resultados</Text>
 
-                    <YStack gap={10} marginTop={isIos ? 210 : 0}>
-                        <Text paddingHorizontal={20} marginVertical={10}>3 Resultados</Text>
+                        <Text style={styles.sectionTitle}>En proceso</Text>
 
-
-
-                        <Text fontSize={20} margin={20} fontWeight="bold">En proceso</Text>
-
-                        <Pressable
-                            onPress={() => router.push('/validation')}
-                            style={{
-                                backgroundColor: theme.color12?.val,
-                                width: width - 20,
-                                borderRadius: 15,
-                                paddingVertical: 15,
-                                paddingHorizontal: 20
-                            }}>
-                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
-                            <View style={styles.progressBar}>
-                                <View
-                                    style={[styles.progress, { width: '50%' }]} />
-                            </View>
-                            <XStack justifyContent="space-between" marginTop={10}>
-                                <XStack alignItems="center" gap={6}>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                    <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
-                                </XStack>
-                                <XStack alignItems="center" gap={6}>
-                                    <Text fontSize={18} color={theme.color1?.val}>--:--</Text>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                </XStack>
-                            </XStack>
-                        </Pressable>
-
-                        <Pressable
-                            onPress={() => router.push('/validation')}
-                            style={{
-                                backgroundColor: theme.color12?.val,
-                                width: width - 20,
-                                borderRadius: 15,
-                                paddingVertical: 15,
-                                paddingHorizontal: 20
-                            }}>
-                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
-                            <View style={styles.progressBar}>
-                                <View
-                                    style={[styles.progress, { width: '50%' }]} />
-                            </View>
-                            <XStack justifyContent="space-between" marginTop={10}>
-                                <XStack alignItems="center" gap={6}>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                    <Text fontSize={18} color={theme.color1?.val}>3:30 PM</Text>
-                                </XStack>
-                                <XStack alignItems="center" gap={6}>
-                                    <Text fontSize={18} color={theme.color1?.val}>--:--</Text>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                </XStack>
-                            </XStack>
-                        </Pressable>
-
-                        <Text fontSize={20} margin={20} fontWeight="bold">Completados</Text>
-
-                        <Pressable
-                            onPress={() => router.push('/validation')}
-                            style={{
-                                backgroundColor: theme.color12?.val,
-                                width: width - 20,
-                                borderRadius: 15,
-                                paddingVertical: 15,
-                                paddingHorizontal: 20
-                            }}>
-                            <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
-                            <View style={styles.progressBar}>
-                                <View
-                                    style={{ width: '100%', height: '100%', backgroundColor: '#5DE72F' }} />
-                            </View>
-                            <XStack justifyContent="space-between" marginTop={10}>
-                                <XStack alignItems="center" gap={6}>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                    <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
-                                </XStack>
-                                <XStack alignItems="center" gap={6}>
-                                    <Text fontSize={18} color={theme.color1?.val}>12:55 PM</Text>
-                                    <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                </XStack>
-                            </XStack>
-                        </Pressable>
-                    </YStack>
-                    <View height={bottom + 50}/>
-                </ScrollView>
-            }
-
-            {
-                !loading && user?.publicMetadata?.role === 'Cocinero' &&
-                <Fragment>
-                    {
-                        processes === 0 &&
-                        <YStack gap={10} flex={1} backgroundColor="$color2" justifyContent="center" alignItems="center">
-                            <YStack alignItems="center" gap={16}>
-                                <View
-                                    backgroundColor="white"
-                                    width={120}
-                                    height={120}
-                                    borderRadius={100}
-                                />
-                                <Text>No tienes procesos abiertos.</Text>
-                                <Button onPress={() => router.push('/select_recipe')} width={250}>Abrir proceso</Button>
-                            </YStack>
-                        </YStack>
-                    }
-                    {
-                        processes === 1 &&
-                        <YStack gap={10} flex={1} backgroundColor="$color2" paddingBottom={bottom + 20} justifyContent="space-between" alignItems="center">
-                            <View />
-                            <YStack gap={16}>
-                                <Text fontSize={28}>Tienes una receta en proceso</Text>
-                                <Pressable
-                                    onPress={() => router.push({ pathname: '/recipe_detail', params: { name: 'Detalle de receta' }})}
-                                    style={{
-                                        backgroundColor: theme.color12?.val,
-                                        width: width - 20,
-                                        borderRadius: 15,
-                                        paddingVertical: 15,
-                                        paddingHorizontal: 20
-                                    }}>
-                                    <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
-                                    <View style={styles.progressBar}>
-                                        <View
-                                            style={[styles.progress, { width: '50%' }]} />
-                                    </View>
-                                    <XStack justifyContent="space-between" marginTop={10}>
-                                        <XStack alignItems="center" gap={6}>
-                                            <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                            <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
-                                        </XStack>
-                                        <XStack alignItems="center" gap={6}>
-                                            <Text fontSize={18} color={theme.color1?.val}>--:--</Text>
-                                            <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                        </XStack>
-                                    </XStack>
-                                </Pressable>
-                                <XStack alignItems="center" gap={6} paddingHorizontal={10}>
-                                    <Ionicons name="information-circle" size={24} color={theme.color12?.val} />
-                                    <Text>Presiona la receta para ver el detalle</Text>
-                                </XStack>
-                            </YStack>
-                            <YStack gap={16} alignItems="center">
-                                <Button onPress={() => router.push('/closing_process')} width={260}>Cerrar proceso</Button>
-                                <TouchableOpacity onPress={() => router.back()}>
-                                    <Text>Volver</Text>
-                                </TouchableOpacity>
-                            </YStack>
-                        </YStack>
-                    }
-                    {
-                        processes === 2 &&
-                        <YStack gap={10} flex={1} backgroundColor="$color2" paddingBottom={bottom + 20} justifyContent="space-between" alignItems="center">
-                            <View />
-                            <YStack gap={16} alignItems="center">
-                                <Ionicons name="checkmark-circle" size={150} color="green" />
-                                <Text fontSize={28}>Tu receta esta pendiente por revision</Text>
-                                <View
-                                    style={{
-                                        backgroundColor: theme.color12?.val,
-                                        width: width - 20,
-                                        borderRadius: 15,
-                                        paddingVertical: 15,
-                                        paddingHorizontal: 20
-                                    }}>
-                                    <Text color="color1" fontSize={20} fontWeight="bold" marginBottom={20}>Nombre de receta</Text>
-                                    <View style={styles.progressBar}>
-                                        <View
-                                            style={[styles.progress, { width: '100%' }]} />
-                                    </View>
-                                    <XStack justifyContent="space-between" marginTop={10}>
-                                        <XStack alignItems="center" gap={6}>
-                                            <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                            <Text fontSize={18} color={theme.color1?.val}>9:25 AM</Text>
-                                        </XStack>
-                                        <XStack alignItems="center" gap={6}>
-                                            <Text fontSize={18} color={theme.color1?.val}>13:45</Text>
-                                            <Ionicons name='time' size={24} color={theme.color1?.val} />
-                                        </XStack>
-                                    </XStack>
+                        {[{id: 1, time: "9:25 AM"}, {id: 2, time: "3:30 PM"}].map((item) => (
+                            <Pressable key={item.id} onPress={() => router.push('/validation')} style={styles.card}>
+                                <Text style={styles.cardTitle}>Nombre de receta</Text>
+                                <View style={styles.progressBar}>
+                                    <View style={[styles.progress, {width: '50%'}]}/>
                                 </View>
-                            </YStack>
-                            <YStack gap={16} alignItems="center">
-                                <Button  width={260}>Entendido</Button>
-                            </YStack>
-                        </YStack>
-                    }
-                </Fragment>
-            }
-        </Fragment>
+                                <View style={styles.row}>
+                                    <View style={styles.row}>
+                                        <Ionicons name='time' size={24} color="black"/>
+                                        <Text style={styles.text}>{item.time}</Text>
+                                    </View>
+                                    <View style={styles.row}>
+                                        <Text style={styles.text}>--:--</Text>
+                                        <Ionicons name='time' size={24} color="black"/>
+                                    </View>
+                                </View>
+                            </Pressable>
+                        ))}
 
-    )
+                        <Text style={styles.sectionTitle}>Completados</Text>
+
+                        <Pressable onPress={() => router.push('/validation')} style={styles.card}>
+                            <Text style={styles.cardTitle}>Nombre de receta</Text>
+                            <View style={styles.progressBar}>
+                                <View style={[styles.progress, {width: '100%', backgroundColor: '#5DE72F'}]}/>
+                            </View>
+                            <View style={styles.row}>
+                                <View style={styles.row}>
+                                    <Ionicons name='time' size={24} color="black"/>
+                                    <Text style={styles.text}>9:25 AM</Text>
+                                </View>
+                                <View style={styles.row}>
+                                    <Text style={styles.text}>12:55 PM</Text>
+                                    <Ionicons name='time' size={24} color="black"/>
+                                </View>
+                            </View>
+                        </Pressable>
+                    </View>
+                    <View style={{height: bottom + 50}}/>
+                </ScrollView>
+            )}
+        </Fragment>
+    );
 }
 
 const styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#f5f5f5',
+    },
+    headerTitle: {
+        color: '#000',
+    },
+    icon: {
+        color: '#000',
+    },
+    headerLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
+    },
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#f5f5f5',
+    },
+    container: {
+        paddingHorizontal: 20,
+        marginTop: 10,
+    },
+    resultsText: {
+        marginVertical: 10,
+        fontSize: 16,
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginVertical: 10,
+    },
+    card: {
+        backgroundColor: '#fff',
+        width: width - 20,
+        borderRadius: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
+    },
+    cardTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 20,
+        color: '#000',
+    },
     progressBar: {
         height: 5,
         width: '100%',
@@ -327,6 +203,15 @@ const styles = StyleSheet.create({
     progress: {
         height: '100%',
         backgroundColor: '#e5c62d',
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        marginTop: 10,
+        alignItems: "center",
+    },
+    text: {
+        fontSize: 18,
+        color: '#000',
     }
 });
-
