@@ -1,17 +1,16 @@
-import {Button, ScrollView, Separator, Text, useTheme, View, XStack, YStack} from "tamagui";
-import {useSearchParams} from "expo-router/build/hooks";
-import {useNavigation, useRouter} from "expo-router";
-import {useLayoutEffect} from "react";
+import { Stack, useRouter } from "expo-router";
+import { Platform, TouchableOpacity, StyleSheet, View, ScrollView, TextInput, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useSearchParams } from "expo-router/build/hooks";
+import { useNavigation } from "expo-router";
+import { useLayoutEffect } from "react";
 import * as DropdownMenu from "zeego/dropdown-menu";
-import {TextInput, TouchableOpacity} from "react-native";
-import {Ionicons} from "@expo/vector-icons";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Page() {
     const params = useSearchParams();
     const navigation = useNavigation();
-    const theme = useTheme();
-    const {bottom} = useSafeAreaInsets();
+    const { bottom } = useSafeAreaInsets();
     const router = useRouter();
 
     useLayoutEffect(() => {
@@ -21,7 +20,7 @@ export default function Page() {
                 <DropdownMenu.Root key="menu">
                     <DropdownMenu.Trigger>
                         <TouchableOpacity>
-                            <Ionicons name="ellipsis-vertical" size={24} style={{color: theme.color12?.val}}/>
+                            <Ionicons name="ellipsis-vertical" size={24} style={styles.icon} />
                         </TouchableOpacity>
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Content>
@@ -38,63 +37,84 @@ export default function Page() {
                     </DropdownMenu.Content>
                 </DropdownMenu.Root>
             )
+        });
+    }, [navigation]);
 
-        })
-    }, [navigation])
     return (
-        <ScrollView flex={1} backgroundColor="$color2">
-            <XStack justifyContent="center" marginTop={50}>
-                <View>
-                    <View
-                        width={120}
-                        height={120}
-                        borderRadius={100}
-                        backgroundColor="white"
-                    />
-                    <TouchableOpacity
-                        style={{
-                            position: "absolute",
-                            right: -10,
-                            bottom: -10,
-                            backgroundColor: 'white',
-                            borderWidth: 1,
-                            borderColor: 'lightgray',
-                            width: 40,
-                            height: 40,
-                            borderRadius: 20,
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}
-                    >
-                        <Ionicons name="camera" size={24}/>
-                    </TouchableOpacity>
-                </View>
-            </XStack>
+        <ScrollView style={styles.container}>
+            <View style={styles.imageContainer}>
+                <View style={styles.imagePlaceholder} />
+                <TouchableOpacity style={styles.cameraButton}>
+                    <Ionicons name="camera" size={24} />
+                </TouchableOpacity>
+            </View>
 
-            <YStack paddingHorizontal={20} marginTop={50}>
-                <YStack gap={10}>
-                    <Text>Nombre</Text>
-                    <TextInput
-                        returnKeyType="done"
-                        style={{
-                            backgroundColor: 'white',
-                            borderRadius: 10,
-                            padding: 10,
-                            marginBottom: 20
-                        }}
-                    />
-                </YStack>
-            </YStack>
+            <View style={styles.inputContainer}>
+                <Text>Nombre</Text>
+                <TextInput returnKeyType="done" style={styles.input} />
+            </View>
 
-            {/*<YStack>*/}
-            {/*    <Text textAlign="center">Hoja de vida aqui...</Text>*/}
-            {/*</YStack>*/}
+            <TouchableOpacity style={styles.saveButton} onPress={() => router.back()}>
+                <Text style={styles.buttonText}>Guardar cambios</Text>
+            </TouchableOpacity>
 
-            <Button margin={20} onPress={() => router.back()}>
-                <Text>Guardar cambios</Text>
-            </Button>
-
-            <View height={bottom}/>
+            <View style={{ height: bottom }} />
         </ScrollView>
-    )
+    );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f2f2f2',
+    },
+    imageContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50,
+    },
+    imagePlaceholder: {
+        width: 120,
+        height: 120,
+        borderRadius: 100,
+        backgroundColor: 'white',
+    },
+    cameraButton: {
+        position: 'absolute',
+        right: -10,
+        bottom: -10,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'lightgray',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputContainer: {
+        paddingHorizontal: 20,
+        marginTop: 50,
+    },
+    input: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 10,
+        marginBottom: 20,
+    },
+    saveButton: {
+        margin: 20,
+        backgroundColor: '#007AFF',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    icon: {
+        color: '#000',
+    },
+});

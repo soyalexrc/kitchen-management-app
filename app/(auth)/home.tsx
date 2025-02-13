@@ -1,46 +1,88 @@
-import {Button, ScrollView, View, XStack, YStack} from "tamagui";
-import {useAuth, useUser} from "@clerk/clerk-expo";
-import {Link} from "expo-router";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {Header} from "@/lib/components/home";
-import {ProductionResumeCarousel} from "@/lib/components/home/ProductionResumeCarousel";
+import { useUser } from "@clerk/clerk-expo";
+import { Link } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Header } from "@/lib/components/home";
+import { ProductionResumeCarousel } from "@/lib/components/home/ProductionResumeCarousel";
+import { ScrollView, View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
 export default function Page() {
-    const {top} = useSafeAreaInsets();
+    const { top } = useSafeAreaInsets();
     const { user } = useUser();
 
     return (
-        <View flex={1} paddingTop={top} backgroundColor="$color2">
-            <View paddingHorizontal={20}>
-                <Header/>
+        <View style={[styles.container, { paddingTop: top }]}>
+            <View style={styles.headerContainer}>
+                <Header />
             </View>
-            <ScrollView flex={1}>
+            <ScrollView style={styles.scrollContainer}>
                 <View>
-                    <ProductionResumeCarousel/>
+                    <ProductionResumeCarousel />
                 </View>
-                <YStack flex={2} gap={20} paddingHorizontal={20}>
-                    <XStack gap={20}>
-                        {
-                            user?.publicMetadata?.role !== 'Cocinero' &&
-                            <Link style={{flex: 1}} href="/(users)/list" asChild>
-                                <Button>Usuarios</Button>
+                <View style={styles.buttonContainer}>
+                    <View style={styles.row}>
+                        {user?.publicMetadata?.role !== 'Cocinero' && (
+                            <Link style={styles.flex} href="/(users)/list" asChild>
+                                <TouchableOpacity style={styles.button}>
+                                    <Text style={styles.buttonText}>Usuarios</Text>
+                                </TouchableOpacity>
                             </Link>
-                        }
-
-                        <Link style={{flex: 1}} href="/(recipes)/list" asChild>
-                            <Button>Recetas</Button>
+                        )}
+                        <Link style={styles.flex} href="/(recipes)/list" asChild>
+                            <TouchableOpacity style={styles.button}>
+                                <Text style={styles.buttonText}>Recetas</Text>
+                            </TouchableOpacity>
                         </Link>
-                    </XStack>
-                    <XStack gap={20}>
-                        <Link style={{flex: 1}} href="/(warehouses)/list" asChild>
-                            <Button>Almacenes</Button>
+                    </View>
+                    <View style={styles.row}>
+                        <Link style={styles.flex} href="/(warehouses)/list" asChild>
+                            <TouchableOpacity style={styles.button}>
+                                <Text style={styles.buttonText}>Almacenes</Text>
+                            </TouchableOpacity>
                         </Link>
-                        <Link style={{flex: 1}} href="/(production)/list" asChild>
-                            <Button>Produccion</Button>
+                        <Link style={styles.flex} href="/(production)/list" asChild>
+                            <TouchableOpacity style={styles.button}>
+                                <Text style={styles.buttonText}>Producción</Text>
+                            </TouchableOpacity>
                         </Link>
-                    </XStack>
-                </YStack>
+                    </View>
+                </View>
             </ScrollView>
         </View>
-    )
+    );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f2f2f2',
+    },
+    headerContainer: {
+        paddingHorizontal: 20,
+    },
+    scrollContainer: {
+        flex: 1,
+    },
+    buttonContainer: {
+        flex: 2,
+        gap: 20,
+        paddingHorizontal: 20,
+    },
+    row: {
+        flexDirection: 'row',
+        gap: 20,
+    },
+    flex: {
+        flex: 1,
+    },
+    button: {
+        backgroundColor: '#007AFF',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+});

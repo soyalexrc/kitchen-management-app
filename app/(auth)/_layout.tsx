@@ -1,7 +1,4 @@
 import {Stack} from "expo-router";
-import {Button} from "tamagui";
-import {Ionicons} from "@expo/vector-icons";
-import {TouchableOpacity} from "react-native";
 
 export default function Layout() {
     return (

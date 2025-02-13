@@ -1,11 +1,9 @@
-import {Stack, useRouter} from "expo-router";
-import {Platform, TouchableOpacity} from "react-native";
-import {Ionicons} from "@expo/vector-icons";
-import {useTheme, XStack} from "tamagui";
+import { Stack, useRouter } from "expo-router";
+import { Platform, TouchableOpacity, StyleSheet, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Layout() {
     const router = useRouter();
-    const theme = useTheme();
     const isIos = Platform.OS === 'ios';
 
     return (
@@ -13,12 +11,8 @@ export default function Layout() {
             <Stack.Screen
                 name="list"
                 options={{
-                    headerStyle: {
-                        backgroundColor: theme.color2?.val
-                    },
-                    headerTitleStyle: {
-                        color: theme.color12?.val
-                    },
+                    headerStyle: styles.header,
+                    headerTitleStyle: styles.headerTitle,
                     headerLargeTitle: true,
                     title: 'Recetas',
                     headerBackTitle: 'Atras',
@@ -27,22 +21,21 @@ export default function Layout() {
                         inputType: 'text',
                     },
                     headerRight: () => (
-                        <XStack gap={20}>
+                        <View style={styles.headerRightContainer}>
                             <TouchableOpacity>
-                                <Ionicons name="filter" size={24} style={{ color: theme.color12?.val }} />
+                                <Ionicons name="filter" size={24} style={styles.icon} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => router.push({ pathname: '/detail', params: { mode: 'add' } })}>
-                                <Ionicons name="add" size={24} style={{ color: theme.color12?.val }} />
+                                <Ionicons name="add" size={24} style={styles.icon} />
                             </TouchableOpacity>
-                        </XStack>
+                        </View>
                     ),
                     headerLeft: () => (
                         <TouchableOpacity
                             onPress={() => router.back()}
-                            style={{flexDirection: 'row', alignItems: 'center', gap: 10}}
+                            style={styles.headerLeftContainer}
                         >
-                            <Ionicons name="arrow-back" size={24} style={{ color: theme.color12?.val, marginRight: isIos ? 0 : 10 }}/>
-                            {/*<Text>Atras</Text>*/}
+                            <Ionicons name="arrow-back" size={24} style={[styles.icon, { marginRight: isIos ? 0 : 10 }]} />
                         </TouchableOpacity>
                     )
                 }}
@@ -51,12 +44,8 @@ export default function Layout() {
                 name="select_input"
                 options={{
                     presentation: 'modal',
-                    headerStyle: {
-                        backgroundColor: theme.color2?.val
-                    },
-                    headerTitleStyle: {
-                        color: theme.color12?.val
-                    },
+                    headerStyle: styles.header,
+                    headerTitleStyle: styles.headerTitle,
                     headerLargeTitle: true,
                     title: 'Agregar insumos',
                     headerBackTitle: 'Atras',
@@ -65,23 +54,21 @@ export default function Layout() {
                         inputType: 'text',
                     },
                     headerRight: () => (
-                        <XStack gap={20}>
+                        <View style={styles.headerRightContainer}>
                             <TouchableOpacity>
-                                <Ionicons name="filter" size={24} style={{color: theme.color12?.val}}/>
+                                <Ionicons name="filter" size={24} style={styles.icon} />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => router.push({pathname: '/detail', params: {mode: 'add'}})}>
-                                <Ionicons name="add" size={24} style={{color: theme.color12?.val}}/>
+                            <TouchableOpacity onPress={() => router.push({ pathname: '/detail', params: { mode: 'add' } })}>
+                                <Ionicons name="add" size={24} style={styles.icon} />
                             </TouchableOpacity>
-                        </XStack>
+                        </View>
                     ),
                     headerLeft: () => (
                         <TouchableOpacity
                             onPress={() => router.back()}
-                            style={{flexDirection: 'row', alignItems: 'center', gap: 10}}
+                            style={styles.headerLeftContainer}
                         >
-                            <Ionicons name="arrow-back" size={24}
-                                      style={{color: theme.color12?.val, marginRight: isIos ? 0 : 10}}/>
-                            {/*<Text>Atras</Text>*/}
+                            <Ionicons name="arrow-back" size={24} style={[styles.icon, { marginRight: isIos ? 0 : 10 }]} />
                         </TouchableOpacity>
                     )
                 }}
@@ -90,12 +77,8 @@ export default function Layout() {
                 name="select_recipe"
                 options={{
                     presentation: 'modal',
-                    headerStyle: {
-                        backgroundColor: theme.color2?.val
-                    },
-                    headerTitleStyle: {
-                        color: theme.color12?.val
-                    },
+                    headerStyle: styles.header,
+                    headerTitleStyle: styles.headerTitle,
                     headerLargeTitle: true,
                     title: 'Agregar recetas',
                     headerBackTitle: 'Atras',
@@ -104,23 +87,21 @@ export default function Layout() {
                         inputType: 'text',
                     },
                     headerRight: () => (
-                        <XStack gap={20}>
+                        <View style={styles.headerRightContainer}>
                             <TouchableOpacity>
-                                <Ionicons name="filter" size={24} style={{color: theme.color12?.val}}/>
+                                <Ionicons name="filter" size={24} style={styles.icon} />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => router.push({pathname: '/detail', params: {mode: 'add'}})}>
-                                <Ionicons name="add" size={24} style={{color: theme.color12?.val}}/>
+                            <TouchableOpacity onPress={() => router.push({ pathname: '/detail', params: { mode: 'add' } })}>
+                                <Ionicons name="add" size={24} style={styles.icon} />
                             </TouchableOpacity>
-                        </XStack>
+                        </View>
                     ),
                     headerLeft: () => (
                         <TouchableOpacity
                             onPress={() => router.back()}
-                            style={{flexDirection: 'row', alignItems: 'center', gap: 10}}
+                            style={styles.headerLeftContainer}
                         >
-                            <Ionicons name="arrow-back" size={24}
-                                      style={{color: theme.color12?.val, marginRight: isIos ? 0 : 10}}/>
-                            {/*<Text>Atras</Text>*/}
+                            <Ionicons name="arrow-back" size={24} style={[styles.icon, { marginRight: isIos ? 0 : 10 }]} />
                         </TouchableOpacity>
                     )
                 }}
@@ -128,3 +109,24 @@ export default function Layout() {
         </Stack>
     );
 }
+
+const styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#f2f2f2',
+    },
+    headerTitle: {
+        color: '#000',
+    },
+    headerRightContainer: {
+        flexDirection: 'row',
+        gap: 20,
+    },
+    headerLeftContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+    },
+    icon: {
+        color: '#000',
+    },
+});
