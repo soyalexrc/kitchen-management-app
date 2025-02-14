@@ -3,7 +3,7 @@
     "name": "Kitchen Boss",
     "description": "An app to manage your business from your kitchen.",
     "slug": "kitchen-management-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
