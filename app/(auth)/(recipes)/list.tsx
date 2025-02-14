@@ -1,7 +1,8 @@
-import { ScrollView, Text, View, ActivityIndicator, Platform, Pressable, RefreshControl, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, Platform, Pressable, RefreshControl, StyleSheet } from "react-native";
 import { useCallback, useEffect, useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { FlashList } from "@shopify/flash-list";
 
 const data = [
     { id: 1, name: "Pan baguete masa madre" },
@@ -12,7 +13,7 @@ const data = [
 export default function Page() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-    const { bottom } = useSafeAreaInsets();
+    const { bottom, top } = useSafeAreaInsets();
     const router = useRouter();
     const isIos = Platform.OS === 'ios';
 
@@ -30,21 +31,22 @@ export default function Page() {
     }, []);
 
     return (
-        <ScrollView
-            style={styles.container}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        >
+        <SafeAreaView style={styles.safeContainer}>
             {loading ? (
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator />
                     <Text>Cargando...</Text>
                 </View>
             ) : (
-                <View style={[styles.listContainer, { marginTop: isIos ? 210 : 0 }]}>
-                    <Text style={styles.resultText}>3 Resultados</Text>
-                    {data.map(item => (
+                <FlashList
+                    data={data}
+                    estimatedItemSize={70}
+                    contentInsetAdjustmentBehavior="automatic"
+                    keyExtractor={(item) => item.id.toString()}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    ListHeaderComponent={<Text style={styles.resultText}>3 Resultados</Text>}
+                    renderItem={({ item }) => (
                         <Pressable
-                            key={item.id}
                             onPress={() => router.push({ pathname: '/detail', params: { mode: 'edit', name: item.name } })}
                         >
                             <View style={styles.listItem}>
@@ -52,31 +54,30 @@ export default function Page() {
                                 <Text style={styles.itemText}>{item.name}</Text>
                             </View>
                         </Pressable>
-                    ))}
-                </View>
+                    )}
+                    ListFooterComponent={<View style={{ height: bottom }} />}
+                />
             )}
-            <View style={{ height: bottom }} />
-        </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    safeContainer: {
         flex: 1,
         backgroundColor: '#f2f2f2',
     },
     loadingContainer: {
+        flex: 1,
         alignItems: "center",
-        marginTop: 300,
-        gap: 10,
         justifyContent: "center",
-    },
-    listContainer: {
         gap: 10,
     },
     resultText: {
         paddingHorizontal: 20,
         marginVertical: 10,
+        fontSize: 18,
+        fontWeight: "bold",
     },
     listItem: {
         flexDirection: "row",

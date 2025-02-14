@@ -74,6 +74,25 @@ export default function Layout() {
                 }}
             />
             <Stack.Screen
+                name="detail"
+                options={{
+                    headerLargeTitle: true,
+                    headerStyle: { backgroundColor: '#fff' },
+                    // headerLeft: () => (
+                    //     <TouchableOpacity
+                    //         onPress={() => router.back()}
+                    //         style={styles.headerLeftContainer}
+                    //     >
+                    //         <Ionicons name="arrow-back" size={24} style={[styles.icon, { marginRight: isIos ? 0 : 10 }]} />
+                    //     </TouchableOpacity>
+                    // ),
+                    headerSearchBarOptions: {
+                        autoCapitalize: 'none',
+                        inputType: 'text',
+                    },
+                }}
+            />
+            <Stack.Screen
                 name="select_recipe"
                 options={{
                     presentation: 'modal',

@@ -100,7 +100,7 @@ export default function Index() {
                         disabled={loading}
                         style={[
                             styles.button,
-                            { backgroundColor: loading ? '#ccc' : '#000', opacity: loading ? 0.7 : 1 }
+                            { backgroundColor: loading ? '#ccc' : 'blue', opacity: loading ? 0.7 : 1 }
                         ]}
                     >
                         {loading && <ActivityIndicator color="#fff" />}
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: '#333',
         marginTop: 20,
         paddingHorizontal: 20,
         paddingTop: 50,

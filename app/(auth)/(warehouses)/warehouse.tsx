@@ -4,17 +4,17 @@ import {
     Platform,
     Pressable,
     RefreshControl,
-    ScrollView,
+    SafeAreaView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Stack, useNavigation, useRouter } from "expo-router";
-import { useSearchParams } from "expo-router/build/hooks";
+import {Stack, useNavigation, useRouter, useLocalSearchParams} from "expo-router";
 import * as DropdownMenu from "zeego/dropdown-menu";
 import { Ionicons } from "@expo/vector-icons";
+import { FlashList } from "@shopify/flash-list";
 
 export default function Page() {
     const [loading, setLoading] = useState(true);
@@ -32,6 +32,13 @@ export default function Page() {
         { id: 1, name: "Carnes", children: 2, warehouses: 0 },
     ]);
 
+    const combinedData: any = [
+        { type: "header", title: "Items" },
+        ...inputs.map(item => ({ ...item, type: "input" })),
+        { type: "header", title: "Sub Almacenes" },
+        ...data.map(item => ({ ...item, type: "warehouse" })),
+    ];
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
@@ -45,12 +52,12 @@ export default function Page() {
         }, 2000);
     }, []);
 
-    const params = useSearchParams();
+    const {name} = useLocalSearchParams<{ name: string }>();
     const navigation = useNavigation();
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: params.get("name"),
+            title: name
         });
     }, [navigation]);
 
@@ -61,7 +68,7 @@ export default function Page() {
                     headerStyle: styles.header,
                     headerTitleStyle: styles.headerTitle,
                     headerLargeTitle: true,
-                    title: params.get("name") ?? '',
+                    title: name ?? '',
                     headerBackTitle: "Atras",
                     headerSearchBarOptions: {
                         autoCapitalize: "none",
@@ -101,43 +108,45 @@ export default function Page() {
                     ),
                 }}
             />
-            <ScrollView
-                style={styles.container}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
+
+            <SafeAreaView style={styles.container}>
                 {loading ? (
                     <View style={styles.loadingContainer}>
                         <ActivityIndicator />
                         <Text>Cargando...</Text>
                     </View>
                 ) : (
-                    <View style={styles.resultsContainer}>
-                        <Text style={styles.resultsText}>2 Resultados</Text>
-                        {inputs.map((item) => (
-                            <Pressable key={item.id} onPress={() => router.push({ pathname: "/input_detail", params: { name: item.name, id: item.id } })}>
-                                <View style={styles.itemContainer}>
-                                    <View style={styles.smallIcon} />
-                                    <Text style={styles.itemName}>{item.name}</Text>
-                                </View>
-                            </Pressable>
-                        ))}
-                        <Text style={styles.sectionTitle}>Sub Almacenes</Text>
-                        {data.map((item) => (
-                            <Pressable key={item.id} onPress={() => router.push({ pathname: "/warehouse", params: { name: item.name, id: item.id } })}>
-                                <View style={styles.itemContainer}>
-                                    <View style={styles.largeIcon} />
-                                    <View>
-                                        <Text style={styles.itemName}>{item.name}</Text>
-                                        <Text style={styles.itemDetails}>insumos: {item.children}</Text>
-                                        <Text style={styles.itemDetails}>Sub almacenes: {item.warehouses}</Text>
+                    <FlashList
+                        data={combinedData}
+                        keyExtractor={(item: any, index) => item.type + index}
+                        estimatedItemSize={80}
+                        contentInsetAdjustmentBehavior="automatic"
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                        renderItem={({ item }: {item: any}) => {
+                            if (item.type === "header") {
+                                return <Text style={styles.sectionTitle}>{item.title}</Text>;
+                            }
+                            return (
+                                <Pressable key={item.id} onPress={() => router.push({ pathname: item.type === "input" ? "/input_detail" : "/warehouse", params: { name: item.name, id: item.id } })}>
+                                    <View style={styles.itemContainer}>
+                                        <View style={item.type === "input" ? styles.smallIcon : styles.largeIcon} />
+                                        <View>
+                                            <Text style={styles.itemName}>{item.name}</Text>
+                                            {item.type === "warehouse" && (
+                                                <>
+                                                    <Text style={styles.itemDetails}>insumos: {item.children}</Text>
+                                                    <Text style={styles.itemDetails}>Sub almacenes: {item.warehouses}</Text>
+                                                </>
+                                            )}
+                                        </View>
                                     </View>
-                                </View>
-                            </Pressable>
-                        ))}
-                    </View>
+                                </Pressable>
+                            );
+                        }}
+                    />
                 )}
                 <View style={{ height: bottom }} />
-            </ScrollView>
+            </SafeAreaView>
         </Fragment>
     );
 }
@@ -165,13 +174,6 @@ const styles = StyleSheet.create({
         marginTop: 300,
         justifyContent: "center",
     },
-    resultsContainer: {
-        paddingHorizontal: 20,
-        gap: 10,
-    },
-    resultsText: {
-        marginVertical: 10,
-    },
     sectionTitle: {
         fontSize: 20,
         margin: 20,
@@ -186,23 +188,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.2,
         gap: 20,
     },
-    smallIcon: {
-        backgroundColor: "white",
-        width: 30,
-        height: 30,
-        borderRadius: 100,
-    },
-    largeIcon: {
-        backgroundColor: "white",
-        width: 50,
-        height: 50,
-        borderRadius: 100,
-    },
-    itemName: {
-        fontSize: 16,
-    },
-    itemDetails: {
-        fontWeight: "bold",
-        color: "#555",
-    },
+    itemName: {},
+    smallIcon: {},
+    largeIcon: {},
+    itemDetails: {},
 });

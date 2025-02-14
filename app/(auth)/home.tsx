@@ -1,9 +1,9 @@
 import { useUser } from "@clerk/clerk-expo";
-import { Link } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Header } from "@/lib/components/home";
 import { ProductionResumeCarousel } from "@/lib/components/home/ProductionResumeCarousel";
 import { ScrollView, View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {Link} from "expo-router";
 
 export default function Page() {
     const { top } = useSafeAreaInsets();

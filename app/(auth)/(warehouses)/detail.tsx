@@ -15,8 +15,8 @@ export default function Page() {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: params.get('mode') === 'add' ? 'Nuevo Almacen' : params.get('name'),
-            headerRight: params.get('mode') === 'add' ? null : () => (
+            title: params.get('name'),
+            headerRight: () => (
                 <DropdownMenu.Root key="menu">
                     <DropdownMenu.Trigger>
                         <TouchableOpacity>

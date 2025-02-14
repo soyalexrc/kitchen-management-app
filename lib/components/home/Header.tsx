@@ -2,6 +2,7 @@ import { Image, Text, View, TouchableOpacity, Platform, StyleSheet } from "react
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import * as DropdownMenu from 'zeego/dropdown-menu'
 
 export function Header() {
     const { user } = useUser();
@@ -23,20 +24,25 @@ export function Header() {
                     }
                 </View>
             </View>
-            <TouchableOpacity onPress={() => setMenuOpen(!menuOpen)}>
-                <Ionicons name="menu" size={24} color="black" />
-            </TouchableOpacity>
-
-            {menuOpen && (
-                <View style={styles.menu}>
-                    <TouchableOpacity style={styles.menuItem}>
-                        <Text>Perfil</Text>
+            <DropdownMenu.Root key="menu">
+                <DropdownMenu.Trigger>
+                    <TouchableOpacity>
+                        <Ionicons name="menu" size={24} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.menuItem} onPress={() => signOut({ redirectUrl: "/" })}>
-                        <Text>Cerrar sesión</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                    <DropdownMenu.Group key="0">
+                        <DropdownMenu.Item key="profile">
+                            <DropdownMenu.ItemTitle>Perfil</DropdownMenu.ItemTitle>
+                        </DropdownMenu.Item>
+                    </DropdownMenu.Group>
+                    <DropdownMenu.Group key="1">
+                        <DropdownMenu.Item key="logout" onSelect={() => signOut({ redirectUrl: '/' })}>
+                            <DropdownMenu.ItemTitle >Cerrar sesion</DropdownMenu.ItemTitle>
+                        </DropdownMenu.Item>
+                    </DropdownMenu.Group>
+                </DropdownMenu.Content>
+            </DropdownMenu.Root>
         </View>
     );
 }
